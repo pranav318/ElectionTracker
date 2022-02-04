@@ -9,7 +9,7 @@ const Homepage = () => {
     const fetchTodos = async () => {
         const response = await fetch(commonlink + 'electiontypes')
         const todos = await response.json()
-        console.log(todos['data'])
+       // console.log(todos['data'])
         setData(todos['data'])
         
       }
@@ -23,7 +23,7 @@ const Homepage = () => {
         let url = commonlink + 'electionstates?electionTypeId=' + electionid;
         const res = await fetch(url)
         const ans = await res.json()
-        console.log(ans['data'])
+       // console.log(ans['data'])
         setStates(ans['data'])
         setInfo({...info,electionid :electionid})
         
@@ -40,7 +40,7 @@ const Homepage = () => {
     const [selectedstate, setSelectedstate] = useState([])
     
     const selectstate = (stateselected,stateId) => {
-        console.log(stateselected)
+        //console.log(stateselected)
         setSelectedstate(stateselected)
         setInfo({...info,stateid:stateId})
         
@@ -49,16 +49,16 @@ const Homepage = () => {
 
     const header = () => {
         if(info['stateid'] !== '') {
-            console.log(info['electionid'])
+           // console.log(info['electionid'])
             return (
             <div>   
                 <h2>LIVE: Election Results | {selectedstate} </h2>
                 <div class= 'category'>
                     <select placeholder="Select a Category"  onChange={e => setSelectcat({cat:e.target.value})} value={selectcat.cat} >
                         <option value="State" selected>State</option>
+                        <option value="General">General</option>
                         <option value="Constituency">Constituency</option>
                         <option value="Contestant">Contestant</option>
-                        <option value="General">General</option>
                     </select>
                 </div>
             </div> 
@@ -76,7 +76,7 @@ const Homepage = () => {
     </nav>
     )
     const table = () => {
-        console.log(selectcat)
+        //console.log(selectcat)
         if(selectcat.cat !== '') {
             return <Tables info ={info} cat = {selectcat.cat}/>
         }
