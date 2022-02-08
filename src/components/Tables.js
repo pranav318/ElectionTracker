@@ -2,7 +2,7 @@ import React ,{ useEffect,useState }from 'react'
 
 const Tables = ({info,cat}) => {
     const [constidata, setConstidata] = useState([])
-    const [insull1,setIsnull1] = useState('true')
+    const [insull1,setIsnull1] = useState(true)
     const data = info
     const commonlink  = 'https://election-worker.elections-aadhan-in.workers.dev/'
     
@@ -10,45 +10,48 @@ const Tables = ({info,cat}) => {
         let url = commonlink +'constituencywisedata?electionTypeId=' + data['electionid'] + '&stateId=' + data['stateid'] ;
         const res1 = await fetch(url)
         const ans1 = await res1.json()
+        console.log(ans1['data'])
         if (ans1['data']['stateWiseData'] !== null) {
-        setConstidata(ans1['data']['stateWiseData']["lstConstituencyWiseData"])
-        setIsnull1('flase')
+        setConstidata(ans1['data']['stateWiseData']['lstConstituencyWiseData'])
+        setIsnull1(false)
         }
         }
         useEffect(() => {
             constdata()
-            })
+            },[])
         
     const [stdata, setStdata] = useState([])
-    const [insull2,setIsnull2] = useState('true')
+    const [insull2,setIsnull2] = useState(true)
 
     const statedata = async () => {
         let url2 = commonlink+'statewisedata?electionTypeId=' + data['electionid'] + '&stateId=' + data['stateid'] ;
         const res2 = await fetch(url2)
         const ans2 = await res2.json()
+        console.log(ans2['data'])
         if (ans2['data']['stateWiseData'] !== null) {
         setStdata(ans2['data']['stateWiseData']["lstPartyWiseData"])
-        setIsnull2('flase')
+        setIsnull2(false)
         }
         }
         useEffect(() => {
             statedata()
-            })
+            },[])
 
     
     const [general, setGeneral] = useState([])
-    const [insull3,setIsnull3] = useState('true')
+    const [insull3,setIsnull3] = useState(true)
     const generaldata = async () => {
         let url3 = commonlink+'countrywisedata' ;
         const res4 = await fetch(url3)
         const ans4 = await res4.json()
+        console.log(ans4['data'])
         if (ans4['data']['stateWiseData'] !== null) {
-        setGeneral(ans4['data']['lstPartyWiseData'])
-        setIsnull3('false')
+        setGeneral(ans4['data']['stateWiseData']['lstPartyWiseData'])
+        setIsnull3(false)
         }}
         useEffect(() => {
             generaldata()
-            })
+            },[])
     const [userwise, setUserwise] = useState([])
     const contestantdata = async () => {
         let url4 = commonlink+'?contestantsdata' ;
@@ -59,7 +62,7 @@ const Tables = ({info,cat}) => {
     
  
     if (cat === 'State') {
-        if (insull1 === 'false'){
+        if (insull2 === false){
     return (
         <div>
         <table class="table">
@@ -88,15 +91,15 @@ const Tables = ({info,cat}) => {
         </div>
         );
     
-        }}
+        }
         else {
             return (
                 <div>No Data As Of Now</div>
             )
-        }
+        }}
     
     if (cat === 'Constituency') {
-        if (insull2 === 'false'){
+        if (insull1 === false){
         return (
             <div>
                 
@@ -128,12 +131,12 @@ const Tables = ({info,cat}) => {
              
             </div>
             );
-    }}
+    }
     else {
         return (
             <div>No data to show as of now</div>
         )
-    }
+    }}
 
     if (cat === 'Contestant') {
         
@@ -171,7 +174,8 @@ const Tables = ({info,cat}) => {
     }
     
     if( cat === 'General') {
-        if (insull3 === 'false'){
+        console.log(insull3)
+        if (insull3 === false){
         return (
             <div>
                 
@@ -180,7 +184,7 @@ const Tables = ({info,cat}) => {
                     <tr>
                     <th>partyName</th>
                     <th>seats</th>
-                    <th>seatsCount</th>
+                    <th>statusCount</th>
                     
                     </tr>
                 </thead>
@@ -191,7 +195,7 @@ const Tables = ({info,cat}) => {
                     <tr key={i}>
                         <td>{data.partyName}</td>
                         <td>{data.seats}</td>
-                        <td>{data.seatsCount}</td>
+                        <td>{data.statusCount}</td>
                     </tr>
                     );
                 })}
@@ -201,13 +205,13 @@ const Tables = ({info,cat}) => {
              
             </div>
             );
-    }}
+    }
     else {
         return(
     
             <div>No data to show as of now</div>
         )
-    }
+    }}
 }
 
 
